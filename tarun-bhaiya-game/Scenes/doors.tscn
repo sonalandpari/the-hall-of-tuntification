@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://vq4ittlro7ty"]
+
+[ext_resource type="Script" uid="uid://c3hxma3c46ylc" path="res://Scripts/doors.gd" id="1_70kxj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3oa17"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bd7c1"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_a4a4d"]
+
+[sub_resource type="Animation" id="Animation_5j1im"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hinge")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_brwkg"]
+resource_name = "close_door"
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hinge")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, -0.67559016, 0, 0.7372774, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_g086a"]
+resource_name = "door_open"
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hinge")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0, -0.67559016, 0, 0.7372774)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ivxn"]
+_data = {
+&"RESET": SubResource("Animation_5j1im"),
+&"close_door": SubResource("Animation_brwkg"),
+&"open_door": SubResource("Animation_g086a")
+}
+
+[node name="Doors" type="Node3D" unique_id=882198793]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+script = ExtResource("1_70kxj")
+
+[node name="Hinge" type="Node3D" parent="." unique_id=1110795064]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.503566, 0, 0)
+
+[node name="mesh" type="MeshInstance3D" parent="Hinge" unique_id=1581405834]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 0.1, 0.503566, 0, 0)
+mesh = SubResource("BoxMesh_3oa17")
+
+[node name="door_body" type="StaticBody3D" parent="Hinge/mesh" unique_id=1112522516]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/mesh/door_body" unique_id=1016852264]
+shape = SubResource("BoxShape3D_bd7c1")
+
+[node name="Knobs" type="Node3D" parent="Hinge" unique_id=1983733024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.503566, 0, 0)
+
+[node name="Knob" type="MeshInstance3D" parent="Hinge/Knobs" unique_id=1339595027]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.35, 0, 0.09)
+mesh = SubResource("SphereMesh_a4a4d")
+
+[node name="RigidBody3D" type="StaticBody3D" parent="Hinge/Knobs/Knob" unique_id=327776974]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/Knobs/Knob/RigidBody3D" unique_id=819473857]
+shape = SubResource("BoxShape3D_bd7c1")
+
+[node name="Knob2" type="MeshInstance3D" parent="Hinge/Knobs" unique_id=1784203936]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.35, 0, -0.09)
+mesh = SubResource("SphereMesh_a4a4d")
+
+[node name="RigidBody3D" type="StaticBody3D" parent="Hinge/Knobs/Knob2" unique_id=1205559537]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/Knobs/Knob2/RigidBody3D" unique_id=931259169]
+shape = SubResource("BoxShape3D_bd7c1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=171109937]
+libraries/ = SubResource("AnimationLibrary_8ivxn")
